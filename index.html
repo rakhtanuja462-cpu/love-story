@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story 💖</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    overflow:hidden;
+    color:white;
+
+    /* 💫 Magical gradient */
+    background: linear-gradient(270deg,#ff9a9e,#fad0c4,#ffdde1,#ff9a9e);
+    background-size:800% 800%;
+    animation:bgMove 15s ease infinite;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* ✨ stars */
+.star{
+    position:absolute;
+    width:3px;height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:0.3;}
+    to{opacity:1; transform:scale(1.5);}
+}
+
+/* INTRO */
+#intro{
+    position:fixed;
+    width:100%;height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    animation:fadeOut 4s forwards 3s;
+}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+
+/* PAGE */
+.page{display:none;text-align:center;}
+#page1{display:block;}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(45deg,#ff1493,#8a2be2);
+    color:white;
+    cursor:pointer;
+}
+
+/* 💓 heartbeat */
+h1{
+    text-shadow:0 0 10px #ff4da6;
+    animation:heartbeat 1.5s infinite;
+}
+@keyframes heartbeat{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.1);}
+}
+
+/* 💌 typing */
+#letter{
+    width:0;
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:2px solid white;
+    margin:auto;
+    animation:typing 4s steps(40) forwards;
+}
+@keyframes typing{to{width:100%;}}
+
+/* 💋 kiss */
+.kiss{
+    font-size:40px;
+    animation:kiss 1s infinite alternate;
+}
+@keyframes kiss{to{transform:scale(1.4);}}
+
+/* 📸 slideshow */
+.slideshow{
+    position:relative;
+    width:420px;
+    max-width:90%;
+    margin:20px auto;
+}
+#photo{
+    width:100%;
+    border-radius:15px;
+    transition:.5s;
+}
+#photo:hover{transform:scale(1.05);}
+
+.nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:50%;
+}
+.prev{left:-10px;}
+.next{right:-10px;}
+
+.fade{opacity:0;}
+
+/* 💖 hearts */
+.heart{
+    position:absolute;
+    width:15px;height:15px;
+    background:#ff4da6;
+    transform:rotate(45deg);
+    animation:floatUp 4s linear infinite;
+}
+.heart::before,.heart::after{
+    content:"";
+    position:absolute;
+    width:15px;height:15px;
+    background:#ff4da6;
+    border-radius:50%;
+}
+.heart::before{top:-7px;}
+.heart::after{left:-7px;}
+
+@keyframes floatUp{
+    from{transform:translateY(100vh) rotate(45deg);}
+    to{transform:translateY(-10vh) rotate(45deg);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">✨ A Love Story Begins ✨</div>
+
+<!-- PAGE 1 -->
+<div class="page" id="page1">
+    <h1>💖 Our Story 💖</h1>
+    <input type="text" id="name" placeholder="Enter name">
+    <br><br>
+    <button onclick="start()">Start 🎬</button>
+    <button onclick="sendWhatsApp()">Send 💬</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+    <h1 id="greet"></h1>
+    <button onclick="nextScene()">Continue ➡️</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+    <h1>💖 I Love You 💖</h1>
+
+    <div id="letter">I love uuu so much pankaj 💖</div>
+    <div class="kiss">💋</div>
+
+    <div class="slideshow">
+        <img id="photo" src="img1.jpg">
+        <button class="nav prev">❮</button>
+        <button class="nav next">❯</button>
+    </div>
+</div>
+
+<!-- MUSIC -->
+<button id="musicBtn" style="position:fixed;bottom:20px;right:20px;">Play 🎵</button>
+<audio id="music">
+    <source src="bairan.mp3">
+</audio>
+
+<script>
+// 🎵 music
+const music=document.getElementById("music");
+const btn=document.getElementById("musicBtn");
+let playing=false;
+
+btn.onclick=()=>{
+    if(!playing){music.play();btn.textContent="Pause ⏸️";}
+    else{music.pause();btn.textContent="Play 🎵";}
+    playing=!playing;
+};
+
+// 🎬 start
+function start(){
+    let name=document.getElementById("name").value;
+    if(name===""){alert("Enter name");return;}
+    show("page2");
+    document.getElementById("greet").innerText="This story is about "+name+" 💖";
+}
+
+// next
+function nextScene(){
+    show("page3");
+    hearts();
+    stars();
+    slider();
+}
+
+// page switch
+function show(id){
+    document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+// 💖 hearts
+function hearts(){
+    setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),4000);
+    },300);
+}
+
+// ✨ stars
+function stars(){
+    setInterval(()=>{
+        let s=document.createElement("div");
+        s.className="star";
+        s.style.left=Math.random()*100+"vw";
+        s.style.top=Math.random()*100+"vh";
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),2000);
+    },200);
+}
+
+// 📸 slider
+const photos=["img1.jpg","img2.jpg","img3.jpg"];
+let i=0;
+const img=document.getElementById("photo");
+
+function showSlide(x){
+    img.classList.add("fade");
+    setTimeout(()=>{
+        img.src=photos[x];
+        img.classList.remove("fade");
+    },300);
+}
+
+function next(){i=(i+1)%photos.length;showSlide(i);}
+function prev(){i=(i-1+photos.length)%photos.length;showSlide(i);}
+
+document.querySelector(".next").onclick=next;
+document.querySelector(".prev").onclick=prev;
+
+function slider(){setInterval(next,3000);}
+
+// swipe
+let startX=0;
+img.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+img.addEventListener("touchend",e=>{
+    let endX=e.changedTouches[0].clientX;
+    if(startX-endX>50) next();
+    else if(endX-startX>50) prev();
+});
+
+// 💬 WhatsApp (FIXED)
+function sendWhatsApp(){
+    let name=document.getElementById("name").value;
+    if(name===""){alert("Enter name first");return;}
+
+    let message="Pankaj "+name+" 💖\nI love uuu so much pankaj 💋";
+    let phone="918668342093"; // ✅ correct format
+
+    let url="https://wa.me/"+phone+"?text="+encodeURIComponent(message);
+    window.open(url,"_blank");
+}
+</script>
+
+</body>
+</html>
